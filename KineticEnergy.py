@@ -12,15 +12,25 @@ def calculateKinetic(m, v):
     return energy
 
 #Declaring variables to be used in this program
+#Global variables to be used
+c=2.998e8
 #In kinetic energy this is mass and velocity
-mass=3
-velocity=3
+#Ensuring the declared variables are valid
+try:
+    mass=3
+    velocity=3
+    #boolean to check that m and v are valid
+    validInputs = mass >= 0 and velocity**2<=c**2
+    if(validInputs):
+        #Telling the user what the variables are
+        #Using scientific notation as it is used more frequently with unusual numbers
+        print("The mass is %.2ekg and  the velcoity is %.2ems^-1" %(mass,velocity))
+        #Calling the function and telling the user what the energy is
+        print("The kinetic energy is therefore %.2eJ" %(calculateKinetic(mass,velocity)))
 
-#Telling the user what the variables are
-#Using scientific notation as it is used more frequently with unusual numbers
-print("The mass is %.2ekg and  the velcoity is %.2ems^-1" %(mass,velocity))
-#Calling the function and telling the user what the energy is
-print("The kinetic energy is therefore %.2eJ" %(calculateKinetic(mass,velocity)))
+except:
+    print("Invalid inputs! Oh no!")
+
 
 #Alternatively, user input can be used
 #These inputs need to be checked to ensure they are correct
@@ -46,7 +56,6 @@ try:
     #BUT velocity cannot be more than the speed of light, c
     #Same process used to check to see if velocity is correct.
     invalidV=True
-    c=2.998e8
     while(invalidV):
         print("What is the velocity of the particle?")
         velocity=float(input(">>"))

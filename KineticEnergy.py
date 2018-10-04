@@ -3,11 +3,11 @@
 #03/10/18
 
 #Declaring the functions to be used in this program
-def calculateKinetic(mass, velocity):
+def calculateKinetic(m, v):
 
     #Uses mass and velocity to find the energy
     #E=1/2mv^2
-    energy=0.5*mass*(velocity**2)
+    energy=0.5*m*(v**2)
     #Return the energy
     return energy
 
@@ -23,13 +23,13 @@ print("The mass is %.2ekg and  the velcoity is %.2ems^-1" %(mass,velocity))
 print("The kinetic energy is therefore %.2eJ" %(calculateKinetic(mass,velocity)))
 
 #Alternatively, user input can be used
-#covering not expected inputs using a try/exept
+#These inputs need to be checked to ensure they are correct
+#covering not expected inputs (Strings) using a try/exept
 try:
     #Checking to see if the mass is valid
     #Assume invalid to start the loop
     invalidMass=True
     while(invalidMass):
-        
         print("What is the mass of the particle?")
         #Turning the input string to a float
         mass=float(input(">>"))
@@ -43,8 +43,19 @@ try:
             print("You can't have negative mass! Try again.")
             
     #The user can input any valid float into this, as velocity can be <0
-    print("What is the velocity of the particle?")
-    velocity=float(input(">>"))
+    #BUT velocity cannot be more than the speed of light, c
+    #Same process used to check to see if velocity is correct.
+    invalidV=True
+    c=2.998e8
+    while(invalidV):
+        print("What is the velocity of the particle?")
+        velocity=float(input(">>"))
+        #Checks to see if the user inputted an incorrect value for v
+        invalidV=velocity**2>=c**2
+        if(invalidV):
+            #Informs the user of their mistake
+            print("You can't have a velocity greater than light! Try again.")
+            
 
     #Calling the function and telling the user what the energy is
     print("The kinetic energy of the particle is %.2eJ" %(calculateKinetic(mass,velocity)))

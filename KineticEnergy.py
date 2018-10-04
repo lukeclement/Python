@@ -37,7 +37,7 @@ try:
         #updates the invalid assumption
         #if it is valid, the program just moves along
         invalidMass=mass<0
-
+        
         if(invalidMass):
             #Tells the user they input the wrong mass
             print("You can't have negative mass! Try again.")
@@ -52,6 +52,7 @@ try:
         velocity=float(input(">>"))
         #Checks to see if the user inputted an incorrect value for v
         invalidV=velocity**2>=c**2
+        
         if(invalidV):
             #Informs the user of their mistake
             print("You can't have a velocity greater than light! Try again.")

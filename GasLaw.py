@@ -2,30 +2,22 @@
 #Made by Luke Clement
 #12/10/18
 
-#Function to find Pressure
-def findP(v,t):
+#Function to find Pressure/Volume- Can be used for either
+def findPV(a,t):
     #P=RT/V
     try:
         #Verifing that user inputs are okay to use
-        V,T=verify(v,t)
-        return R*T/V
+        A,T = verify(a,t)
+        return R*T/A
     except:
         return None
-    
-#Function to find Volume
-def findV(p,t):
-    try:
-        #Verifing that user inputs are okay to use
-        P,T=verify(p,t)
-        return R*T/P
-    except:
-        return None
+
 
 #Function to find Temperature
 def findT(p,v):
     try:
         #Verifing that user inputs are okay to use
-        P,V=verify(p,v)
+        P,V = verify(p,v)
         return P*V/R
     except:
         return None
@@ -34,10 +26,10 @@ def findT(p,v):
 def verify(a,b):
     try:
         #Casting inputs into floats
-        A=float(a)
-        B=float(b)
+        A = float(a)
+        B = float(b)
         #Checking to see that the floats are non-zero and above zero
-        if(A>0 and B>0):
+        if(A > 0 and B > 0):
             #Returning the now validated floats
             return A,B
         else:
@@ -53,19 +45,19 @@ def verify(a,b):
 def request():
     #Setting output varible to 0
     #If it stays at 0, then an invalid input has been typed
-    output=0
+    output = 0
     print("Which value would you like to input?")
     print("Pressure    [P]")
     print("Volume      [V]")
     print("Temperature [T]")
-    q=input(">>")
+    q = input(">>")
     #Volume is set to 1, Pressure to 2, and Temperature to 3
-    if(q=="V" or q=="v"):
-        output=1
-    elif(q=="P" or q=="p"):
-        output=2
-    elif(q=="T" or q=="t"):
-        output=3
+    if(q == "V" or q == "v"):
+        output = 1
+    elif(q == "P" or q == "p"):
+        output = 2
+    elif(q == "T" or q == "t"):
+        output = 3
     else:
         print("Invalid input!")
 
@@ -113,9 +105,9 @@ while(calculating):
             value = 0
         #From what wasn't set, it can be calculated!
         if(pSet == 0):
-            P = findP(V,T)
+            P = findPV(V,T)
         elif(vSet == 0):
-            V = findV(P,T)
+            V = findPV(P,T)
         else:
             T = findT(P,V)
         #Letting the user know what all the variables are!

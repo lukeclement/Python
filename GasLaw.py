@@ -34,10 +34,11 @@ def verify(a,b):
             return A,B
         else:
             print("Negative values not allowed!")
-            return None
+            return None,None
     except:
         #Only used if values are not floats
-        return None
+        print("Only numbers allowed!")
+        return None,None
 
 
 
@@ -68,53 +69,60 @@ R = 8.315
 #Starting the while loop in motion
 calculating = True
 while(calculating):
-    try:
-        #V is 1, P is 2, T is 3
-        #Setting value to 0
-        value = 0
-        #Seeing if values are set
-        pSet = 0
-        tSet = 0
-        vSet = 0
-        #Setting starting values all at 0
-        T = 0
-        V = 0
-        P = 0
-        #Starting the loop that asks for the inputs
-        #Once two DIFFERENT variables have been input, the program moves on
-        while(pSet + tSet + vSet < 2):
-            
-            while(value == 0):
-                #Asking the user which input they want
-                value = request()
-            #Asking the user for inputs
-            if(value == 1):
+    #V is 1, P is 2, T is 3
+    #Setting value to 0
+    value = 0
+    #Seeing if values are set
+    pSet = 0
+    tSet = 0
+    vSet = 0
+    #Setting starting values to nonexistant
+    T = None
+    V = None
+    P = None
+    #Starting the loop that asks for the inputs
+    #Once two DIFFERENT variables have been input, the program moves on
+    while(pSet + tSet + vSet < 2):
+        
+        while(value == 0):
+            #Asking the user which input they want
+            value = request()
+        #Asking the user for inputs
+        if(value == 1):
+            #Asking the user for inputs and ensuring they are valid
+            while(not V):
                 print("What is the Volume? [m^3]")
-                V = float(input(">>"))
-                #Setting the V makes vSet 1, meaning V is set (and can be reset)
-                vSet = 1
-            elif(value == 2):
+                V,a = verify(input(">>"),1)
+            
+            #Setting the V makes vSet 1, meaning V is set (and can be reset)
+            vSet = 1
+        elif(value == 2):
+            while(not P):
                 print("What is the Pressure? [Pa]")
-                P = float(input(">>"))
-                pSet = 1
-            else:
+                P,a = verify(input(">>"),1)
+                
+            pSet = 1
+        else:
+            while(not T):
+                
                 print("What is the Temperature? [K]")
                 T = float(input(">>"))
-                tSet = 1
-            #Resetting value (to allow for while loop to go)
-            value = 0
-        #From what wasn't set, it can be calculated!
-        if(pSet == 0):
-            P = findPV(V,T)
-        elif(vSet == 0):
-            V = findPV(P,T)
-        else:
-            T = findT(P,V)
-        #Letting the user know what all the variables are!
-        print("The pressure is %.2ePa, where the Volume is %.2em^3 and Temperature is %.2eK for 1 mole of substance" %(P,V,T))
-            
-    except:
-        print("You put in invalid inputs!")
+                
+            tSet = 1
+        #Resetting value (to allow for while loop to go)
+        value = 0
+    #From what wasn't set, the unknown can be calculated!
+    if(pSet == 0):
+        P = findPV(V,T)
+    elif(vSet == 0):
+        V = findPV(P,T)
+    else:
+        T = findT(P,V)
+    #Letting the user know what all the variables are!
+    print("The pressure is %.2ePa, where the Volume is %.2em^3 and Temperature is %.2eK for 1 mole of substance" %(P,V,T))
+
+    #Asking the user to do another calculation
     print("Would you like to do another calculation? (y/n)")
     ask = input(">>")
+    #Will loop if the condition below is true
     calculating = ask == "y" or ask == "Y"

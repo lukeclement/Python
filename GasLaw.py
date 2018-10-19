@@ -126,3 +126,4 @@ while(calculating):
     ask = input(">>")
     #Will loop if the condition below is true
     calculating = ask == "y" or ask == "Y"
+    

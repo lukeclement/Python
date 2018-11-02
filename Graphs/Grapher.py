@@ -8,11 +8,12 @@ import matplotlib.pyplot as plt
 
 #Setting up the figure as a 3D projection and setting the size
 fig = plt.figure(figsize=(20,20))
-ax = fig.gca(projection='3d')
+#graph is the figure to plot data onto
+graph = fig.gca(projection='3d')
 
 #Reading in a csv of the UK coastline courtesy of Ordnance Survey (https://www.ordnancesurvey.co.uk/)
 #Slight bit of manipulation on my part to create the csv but the basis image is https://www.ordnancesurvey.co.uk/docs/outline-maps/uk-outline-admin-maps.pdf
-#The file used to turn image into csv can be found on my github: 
+#The file used to turn the image into csv can be found on my github: https://github.com/lukeclement/Python/blob/master/Graphs/ImageToCsv.py
 readUK=open("UK.csv","r")
 latUK=[]
 longUK=[]
@@ -22,12 +23,12 @@ for line in readUK:
     longUK.append(float(longlat[0]))
     latUK.append(float(longlat[1]))
 
-#Turning collection of cosatl data to numpy arrays
+#Turning collection of coastal data to numpy arrays
 UKLat=np.asarray(latUK)
 UKLong=np.asarray(longUK)
 
-#Plotting UK coatline
-ax.scatter(UKLat,UKLong,0,zdir='z',s=0.01)
+#Plotting UK coatline at z=0
+graph.scatter(UKLat,UKLong,0,zdir='z',s=0.01)
 
 #Now getting data from GBPlaces.csv
 PlaceLong=[]
@@ -44,10 +45,13 @@ for line in readFile:
       PlaceLong.append(float(parts[4]))
       pop.append(float(parts[2]))
       #If above a certain population, label the city
-      if(float(parts[2])>=500000):
+      if(float(parts[2])>=750000):
           #X,Y,Z positions based on where scatter point will be plotted
-          ax.text(float(parts[3]),float(parts[4]),float(parts[2])/(10**5)," "+parts[0])
-    
+          graph.text(float(parts[3]),float(parts[4]),float(parts[2])/(10**5)," "+parts[0])
+      #And I've got to label Manchester, I'm not a crazy person
+      elif(parts[0]=="Manchester"):
+          graph.text(float(parts[3]),float(parts[4]),float(parts[2])/(10**5)," "+parts[0])
+          
       
       #Show cities and towns in either red or blue
       if(parts[1]=="City"):
@@ -72,22 +76,22 @@ col=np.asarray(colours)
 popTrue=popTrue/(10**5)
 
 #Plotting points
-ax.scatter(PlatTrue, PlongTrue, popTrue, zdir='z', label='Population of UK cities',c=col)
+graph.scatter(PlatTrue, PlongTrue, popTrue, zdir='z', label='Population of UK cities',c=col)
 #Adding seperate colour for towns
-ax.scatter(0,0,0,zdir='z', label="Population of UK towns", c=[1,0,0])
+graph.scatter(0,0,0,zdir='z', label="Population of UK towns", c=[1,0,0])
 #Setting lines to point out where in the UK the cities are
-ax.quiver(PlatTrue, PlongTrue, 0, 0, 0, popTrue, arrow_length_ratio=0,color=col)
+graph.quiver(PlatTrue, PlongTrue, 0, 0, 0, popTrue, arrow_length_ratio=0,color=col)
 
 
 # Make legend, set axes limits and labels
-ax.set_ylim(2, -7)
-ax.set_xlim(48.75, 58.75)
-ax.set_xlabel('Latitude')
-ax.set_ylabel('Longitude')
-ax.set_zlabel('Population/10^5')
-ax.legend(loc=(0.75,0.75))
+graph.set_ylim(2, -7)
+graph.set_xlim(48.75, 58.75)
+graph.set_xlabel('Latitude')
+graph.set_ylabel('Longitude')
+graph.set_zlabel('Population/10^5')
+graph.legend(loc=(0.75,0.75))
 #Setting where the graph will view Great Britian from
-ax.view_init(elev=40, azim=45*3)
+graph.view_init(elev=40, azim=45*3)
 #Saving the figure for outside use
 plt.savefig("GBPlaces.png", bbox_inches='tight')
 #Letting the user know this
